@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en" data-mode="developer">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hearth — a coding agent that lives on your machine</title>
+  <meta name="description" content="Hearth is a calm desktop coding agent for local models. Two versions, every step visible, every edit reversible.">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ebe6dc' d='M3 21V11a9 9 0 0 1 18 0v10h-4V11a5 5 0 0 0-10 0v10Z'/%3E%3Cpath fill='%23f29a4b' d='M12 12l3 4.5-3 4.5-3-4.5Z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas class="pool" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <a class="brand" href="#hero" aria-label="Hearth, back to the top">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="arch" d="M3 21V11a9 9 0 0 1 18 0v10h-4V11a5 5 0 0 0-10 0v10Z"/><path class="ember" d="M12 12l3 4.5-3 4.5-3-4.5Z"/></svg>
+      <span>Hearth</span>
+    </a>
+    <nav class="toplinks" aria-label="Sections">
+      <a href="#journey">Story</a>
+      <a href="#watch">Watch</a>
+      <a href="#firsts">Firsts</a>
+      <a href="#desk">Desk</a>
+      <a href="#numbers">Numbers</a>
+    </nav>
+    <div class="mode" role="radiogroup" aria-label="How much detail this page shows">
+      <button type="button" role="radio" data-set-mode="simple" aria-checked="false">Simple</button>
+      <button type="button" role="radio" data-set-mode="developer" aria-checked="true">Developer</button>
+    </div>
+  </header>
+
+  <nav class="spine" aria-label="Page timeline"></nav>
+
+  <main>
+    <!-- 1 ─────────────────────────────────────────────────────────── -->
+    <section id="hero" class="hero" data-chapter="Hearth">
+      <div class="hero-mark" aria-hidden="true">
+        <canvas class="flame" data-flame width="300" height="300"></canvas>
+        <svg viewBox="0 0 24 24"><path class="arch-draw" pathLength="1" d="M3 21V11a9 9 0 0 1 18 0v10h-4V11a5 5 0 0 0-10 0v10Z"/></svg>
+        <span class="hero-ember"></span>
+      </div>
+      <h1 class="display" data-kinetic>A coding agent that<br>lives on your machine.</h1>
+      <p class="lede">
+        <span class="m-simple">Tell it what you want in plain words. Hearth reads your project, makes the change, and shows you exactly what it did — with one click to undo.</span>
+        <span class="m-dev">A desktop harness for local models: prompt-cache aware, every step measured, every edit snapshotted and reversible, every command approvable — and testable in a sandboxed copy first.</span>
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="#watch">Watch it work</a>
+        <a class="btn" href="#firsts">See what's new</a>
+      </div>
+      <a class="scroll-cue" href="#journey" aria-label="Scroll to the story"><span></span>Scroll</a>
+      <p class="hero-note">This page has two versions, like the app. <button type="button" class="link" data-toggle-mode>Switch to <span class="m-dev">Simple</span><span class="m-simple">Developer</span></button> <kbd>⌘</kbd><kbd>⇧</kbd><kbd>M</kbd></p>
+    </section>
+
+    <div class="marquee" aria-hidden="true" data-marquee>
+      <div class="mq-row" data-dir="1"><span>Simple &amp; Developer</span><i></i><span>Replay</span><i></i><span>Cache ribbon</span><i></i><span>Blind-edit warning</span><i></i><span>Try in a copy first</span><i></i><span>Chat blame</span><i></i><span>The Desk</span><i></i><span>Rewind</span><i></i><span>Side questions</span><i></i></div>
+      <div class="mq-row" data-dir="-1"><span>Review mode</span><i></i><span>Find in chat</span><i></i><span>Worktree chats</span><i></i><span>Tool servers</span><i></i><span>Undo one hunk</span><i></i><span>Comment on a passage</span><i></i><span>Search every chat</span><i></i><span>Export</span><i></i><span>Local models</span><i></i></div>
+    </div>
+
+    <!-- The journey: pinned, scrubbed by scroll ─────────────────────── -->
+    <section id="journey" class="journey" data-chapter="The journey">
+      <div class="j-sticky">
+        <div class="j-inner">
+          <ol class="j-phases" aria-label="What happens to one request">
+            <li data-phase="0" data-n="1"><b>You ask</b><small><span class="m-simple">In plain words, like you would ask a colleague.</span><span class="m-dev">One message; the prompt prefix stays byte-stable for the cache.</span></small><i class="bar"><i></i></i></li>
+            <li data-phase="1" data-n="2"><b>It reads what it needs</b><small><span class="m-simple">It opens the files that matter and searches the code.</span><span class="m-dev">read / grep with exact line ranges, recorded for the blind-edit check.</span></small><i class="bar"><i></i></i></li>
+            <li data-phase="2" data-n="3"><b>It makes the change</b><small><span class="m-simple">A small, exact edit — every line snapshotted.</span><span class="m-dev">Edit with a recorded diff; snapshot before, hunk fingerprints after.</span></small><i class="bar"><i></i></i></li>
+            <li data-phase="3" data-n="4"><b>It proves it</b><small><span class="m-simple">It runs your tests, right there.</span><span class="m-dev">bun test upload, exit code and output captured with the step.</span></small><i class="bar"><i></i></i></li>
+            <li data-phase="4" data-n="5"><b>It tells you exactly what changed</b><small><span class="m-simple">One line you can trust, and one click to undo.</span><span class="m-dev">The ledger: files, commands, checks, blind edits. Revert · Fork · Replay.</span></small><i class="bar"><i></i></i></li>
+          </ol>
+          <div class="j-stage" data-jstage>
+            <canvas class="j-canvas" data-jcanvas></canvas>
+            <div class="j-slip" data-jslip><span data-jtext></span><i class="j-caret"></i></div>
+            <div class="j-nodes" data-jnodes></div>
+            <div class="j-chips" data-jchips></div>
+            <div class="j-diff" data-jdiff>
+              <div class="j-panel-head">src/upload.ts <em class="add">+12</em> <em class="del">−3</em></div>
+              <div class="j-dl del"><b>-</b><span>const CHUNK = 10 * MB;</span></div>
+              <div class="j-dl del"><b>-</b><span>for (let i = 0; i &lt; MAX; i++) {</span></div>
+              <div class="j-dl del"><b>-</b><span>  if (!res.ok) continue;</span></div>
+              <div class="j-dl add"><b>+</b><span data-type="export const DEFAULT_CHUNK = 5 * MB;"></span></div>
+              <div class="j-dl add"><b>+</b><span data-type="for (let i = 0; i &lt; MAX &amp;&amp; retryable(err); i++) {"></span></div>
+              <div class="j-dl add"><b>+</b><span data-type="  if (res.status === 413) chunk /= 2;"></span></div>
+              <div class="j-dl add"><b>+</b><span data-type="  await sleep(backoff(i));"></span></div>
+            </div>
+            <div class="j-term" data-jterm>
+              <div class="j-panel-head">Terminal</div>
+              <div class="j-cmd"><span class="dim">$</span> <span data-type="bun test upload"></span></div>
+              <div class="j-dots" data-jdots></div>
+              <div class="j-result" data-jresult>14 pass · 0 fail · 2.1s</div>
+            </div>
+            <div class="j-ledger" data-jledger>
+              <div class="j-ledger-rule"></div>
+              <div class="j-ledger-items">
+                <span class="strong">Changed 1 file <em class="add">+12</em> <em class="del">−3</em></span>
+                <span>Ran 1 command</span>
+                <span class="okt" data-jcheck>Checks passed</span>
+              </div>
+              <div class="j-ledger-actions"><span>↺ Revert</span><span>⑂ Fork</span><span>▷ Replay</span></div>
+              <p class="j-ledger-end"><span class="m-simple">Done · your turn</span><span class="m-dev">qwen3.8-flash · first token 0.6s · 41 tok/s · 8.2s</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="j-progress" aria-hidden="true"><i data-jprogress></i></div>
+      </div>
+    </section>
+
+    <!-- 2 ─────────────────────────────────────────────────────────── -->
+    <section id="watch" class="chapter" data-chapter="One request">
+      <header class="chapter-head reveal">
+        <p class="kicker">One request, start to finish</p>
+        <h2 class="title">Everything it does is on the page.</h2>
+        <p class="sub">
+          <span class="m-simple">You see what it looked at, what it changed and whether the tests passed. Nothing happens behind a spinner.</span>
+          <span class="m-dev">Tool steps with their cost, the thought in the margin, the answer as it streams, and a ledger that closes every reply: files, commands, checks, blind edits.</span>
+        </p>
+      </header>
+
+      <div class="app reveal" id="demo" aria-label="A recreation of Hearth's chat page playing one request">
+        <div class="app-bar">
+          <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="app-place"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V11a9 9 0 0 1 18 0v10h-4V11a5 5 0 0 0-10 0v10Z"/></svg> uploads-service <span class="dim">— main · 3</span></span>
+          <span class="app-mode"><b class="m-simple">Simple</b><span class="m-dev dim">Simple</span> <b class="m-dev">Developer</b><span class="m-simple dim">Developer</span></span>
+        </div>
+        <div class="app-body">
+          <aside class="app-side" aria-hidden="true">
+            <div class="side-search">Search chats</div>
+            <div class="side-row active"><span>Uploads over 10 MB fail</span><em class="when">now</em><small><span class="m-dev">qwen3.8-flash</span><span class="m-simple">just now</span></small></div>
+            <div class="side-row"><span>Rename config keys</span><em class="tag-warn">Needs approval</em><small><span class="m-dev">qwen3.8-flash</span><span class="m-simple">4m ago</span></small></div>
+            <div class="side-row"><span>Docs pass for the API</span><em class="when">12m</em><small><span class="m-dev">qwen3.8-flash · 3 changed</span><span class="m-simple">12m ago · 3 changed</span></small></div>
+            <div class="side-row"><span>Refactor auth middleware</span><em class="when">1h</em><small><span class="m-dev">qwen3.8-flash · 4 changed</span><span class="m-simple">1h ago · 4 changed</span></small></div>
+          </aside>
+          <div class="app-page">
+            <div class="page-scroll">
+              <div class="leaf chapter-mini">
+                <h3>Uploads over 10 MB fail</h3>
+                <p class="meta" data-demo-meta>Started 2:14 AM · 0 requests</p>
+              </div>
+              <div class="leaf" data-demo-thread></div>
+            </div>
+            <div class="composer">
+              <div class="status" data-demo-status></div>
+              <div class="composer-box">
+                <div class="composer-text" data-demo-composer><span class="ph">Message Hearth</span></div>
+                <div class="composer-row">
+                  <span class="model"><i></i>qwen3.8-flash</span>
+                  <span class="m-dev"><u>Build</u> Plan <span class="dim">Think</span></span>
+                  <span class="m-simple"><u>Do it</u> Plan first</span>
+                  <span class="send" aria-hidden="true">↑</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-controls reveal">
+        <button type="button" class="btn btn-small" data-demo-play>Play again</button>
+        <span class="hint">Switch <button type="button" class="link" data-toggle-mode>Simple / Developer</button> while it plays — it is the same chat.</span>
+      </div>
+    </section>
+
+    <!-- 3 ─────────────────────────────────────────────────────────── -->
+    <section id="faces" class="morph" data-chapter="Two faces">
+      <div class="m-sticky">
+        <header class="chapter-head m-head">
+          <p class="kicker">Two versions</p>
+          <h2 class="title">One for everyone.<br>One for people who read logs.</h2>
+          <p class="sub">Keep scrolling: the same reply turns from one into the other.</p>
+        </header>
+        <div class="mo-card" data-morph>
+          <div class="mo-top"><span class="mo-label"><span data-mo-dev>Developer</span><span data-mo-simple>Simple</span></span><span class="mo-switch"><i data-mo-knob></i></span></div>
+          <div class="mo-rows" data-mo-rows>
+            <div class="mo-row"><i class="g g-read"></i><b>Read</b><code>src/upload.ts</code><span class="mo-meta">lines 1–120 · 1.4k in · 0.9s</span><i class="ok">✓</i></div>
+            <div class="mo-row"><i class="g g-search"></i><b>Searched</b><code>"413" in src</code><span class="mo-meta">2 files · 96% cached</span><i class="ok">✓</i></div>
+            <div class="mo-row"><i class="g g-edit"></i><b>Edited</b><code>src/upload.ts</code><span class="mo-meta"><em class="add">+12</em> <em class="del">−3</em> · 97% cached</span><i class="ok">✓</i></div>
+            <div class="mo-row"><i class="g g-run"></i><b>Ran</b><code>bun test upload</code><span class="mo-meta">2.1s · exit 0</span><i class="ok">✓</i></div>
+            <p class="mo-activity" data-mo-activity>Looked at 2 files, changed 1 and ran 1 command <span>›</span></p>
+          </div>
+          <p class="mo-prose">Big uploads now go in 5 MB chunks; a 413 halves the chunk once, and only network errors retry, with backoff.</p>
+          <div class="mo-ledger">
+            <div class="mo-ledger-dev" data-mo-ldev><span>Changed 1 file <em class="add">+12</em> <em class="del">−3</em></span><span>Ran 1 command</span><span class="okt">Checks passed</span></div>
+            <div class="mo-ledger-simple" data-mo-lsimple><span>Changed 1 file</span><span class="chip">Review changes</span><span class="chip">Undo</span></div>
+          </div>
+          <div class="mo-end"><span class="mo-metrics" data-mo-metrics>qwen3.8-flash · first token 0.6s · 41 tok/s · 3.0k in · 8.2s</span><span class="mo-done" data-mo-done>Done · your turn</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 ─────────────────────────────────────────────────────────── -->
+    <section id="firsts" class="chapter" data-chapter="Firsts">
+      <header class="chapter-head reveal">
+        <p class="kicker">New ideas</p>
+        <h2 class="title">Things we hadn't seen another coding agent do.</h2>
+        <p class="sub">Each one is a small, exact drawing of something real. Try them.</p>
+      </header>
+
+      <!-- Replay -->
+      <article class="first reveal" id="replay">
+        <div class="first-copy">
+          <h3>Replay</h3>
+          <p><span class="m-simple">Scrub through a finished chat like a film and watch which files it opened and changed, step by step.</span><span class="m-dev">A scrubber over every step of a chat: the transcript as of that step, and a workspace map of files read (outlined) and edited (filled).</span></p>
+          <div class="scrub">
+            <button type="button" class="play" data-replay-play aria-label="Play the replay">▶</button>
+            <input type="range" min="0" max="7" value="0" step="1" data-replay-range aria-label="Replay step">
+          </div>
+          <p class="caption" data-replay-caption aria-live="polite"></p>
+        </div>
+        <div class="first-art">
+          <div class="filemap" data-filemap></div>
+          <p class="legend"><i class="lg-read"></i> read <i class="lg-edit"></i> edited</p>
+        </div>
+      </article>
+
+      <!-- Cache ribbon -->
+      <article class="first reveal" id="cache">
+        <div class="first-copy">
+          <h3>Cache ribbon</h3>
+          <p><span class="m-simple">Local models are fast when they can reuse what they already read. Hearth shows how much they reused at every step — and says why when they couldn't.</span><span class="m-dev">Per step: prompt tokens and the share the server served from its prompt cache, with the reason it broke — first request, compaction, edited history, tools changed.</span></p>
+          <p class="caption" data-cache-caption aria-live="polite">Point at a step.</p>
+        </div>
+        <div class="first-art">
+          <div class="ribbon" data-ribbon role="list" aria-label="Model steps"></div>
+          <p class="legend"><i class="lg-cached"></i> reused from cache <i class="lg-fresh"></i> processed fresh</p>
+        </div>
+      </article>
+
+      <!-- Blind edits -->
+      <article class="first reveal" id="lens">
+        <div class="first-copy">
+          <h3>Blind-edit warning</h3>
+          <p><span class="m-simple">If the model changes lines it never looked at, Hearth tells you — before you trust the change.</span><span class="m-dev">Every edit is checked against the line ranges the model actually saw this chat (reads, grep hits, attached ranges), shifted through earlier edits.</span></p>
+          <button type="button" class="btn btn-small" data-lens-toggle aria-pressed="false">Show what it read</button>
+          <p class="warn-line"><b>2 edited lines it had not read</b></p>
+        </div>
+        <div class="first-art">
+          <div class="lens" data-lens>
+            <span class="lens-scan" aria-hidden="true"></span>
+            <div class="lens-ruler" aria-hidden="true"><span class="seen" style="top:0;height:42%"></span><span class="hit" style="top:31%"></span><span class="hit blind" style="top:78%"></span></div>
+            <pre class="diff"><span class="ln seen">  38    const chunk = opts.chunk ?? DEFAULT_CHUNK;</span>
+<span class="ln seen del">- 39    for (let i = 0; i &lt; MAX; i++) {</span>
+<span class="ln seen add">+ 39    for (let i = 0; i &lt; MAX &amp;&amp; retryable(err); i++) {</span>
+<span class="ln seen">  40      await sleep(backoff(i));</span>
+<span class="ln gap">  ⋯</span>
+<span class="ln blind del">- 88  export const DEFAULT_CHUNK = 10 * MB;</span>
+<span class="ln blind add">+ 88  export const DEFAULT_CHUNK = 5 * MB;</span>
+<span class="ln blind-note">    Edited without reading these lines first</span></pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- Try in a copy -->
+      <article class="first reveal" id="copy">
+        <div class="first-copy">
+          <h3>Try in a copy first</h3>
+          <p><span class="m-simple">Not sure about a command? Run it in an instant throwaway copy of your project and see what it would change. Then decide.</span><span class="m-dev">A pending command runs in a copy-on-write clone under a deny-by-default sandbox (no network, no other apps, writes only in the clone), verified on the host before it is ever enabled.</span></p>
+        </div>
+        <div class="first-art">
+          <div class="copy-stage" data-copy-stage aria-hidden="true">
+            <div class="cs-project"><span class="cs-label">your project</span><i></i><i></i><i></i><i></i></div>
+            <div class="cs-flight"><i></i><i></i><i></i><i></i></div>
+            <div class="cs-box"><span class="cs-label">sealed copy</span><span class="cs-lock">⊘ network · ⊘ other apps</span><span class="cs-packet"></span><span class="cs-packet"></span><span class="cs-packet"></span><div class="cs-out"><em>upload.ts</em><em>retry.ts</em><em>api.ts</em></div></div>
+          </div>
+          <div class="approval" data-approval>
+            <div class="approval-head"><span>Run this command?</span><em>Medium risk</em></div>
+            <code class="cmd">npx eslint src --fix</code>
+            <div class="approval-actions">
+              <button type="button" class="chip" data-copy-try>⧉ Try in a copy first</button>
+              <span class="spacer"></span>
+              <button type="button" class="chip" data-copy-deny>Deny</button>
+              <button type="button" class="chip chip-solid" data-copy-allow>Allow</button>
+            </div>
+            <ol class="copy-log" data-copy-log aria-live="polite"></ol>
+          </div>
+        </div>
+      </article>
+
+      <!-- Chat blame -->
+      <article class="first reveal" id="blame">
+        <div class="first-copy">
+          <h3>Chat blame</h3>
+          <p><span class="m-simple">In the editor, a thin mark sits beside every line Hearth wrote in this chat. Point at it to see which request wrote it; click to jump there.</span><span class="m-dev">Line origins are replayed from every recorded edit diff (a command that touched the file resets them), and a line is claimed only while its text is still what the edit wrote.</span></p>
+          <p class="caption" data-blame-caption aria-live="polite">Point at a marked line.</p>
+        </div>
+        <div class="first-art">
+          <div class="editor" data-editor>
+            <div class="editor-bar"><span>upload.ts</span><span class="dim" data-blame-count>5 lines from this chat</span></div>
+            <div class="editor-lines" data-blame-lines></div>
+          </div>
+          <div class="blame-reply" data-blame-reply hidden></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- 5 ─────────────────────────────────────────────────────────── -->
+    <section id="desk" class="chapter" data-chapter="The Desk">
+      <header class="chapter-head reveal">
+        <p class="kicker">The Desk · ⌘⇧H</p>
+        <h2 class="title">Every chat, sorted by what needs you.</h2>
+        <p class="sub">One clear action per chat. Press one.</p>
+      </header>
+      <div class="desk reveal" data-desk>
+        <div class="desk-group" data-group="needs"><h4>Needs you <em></em></h4><ul></ul></div>
+        <div class="desk-group" data-group="working"><h4>Working <em></em></h4><ul></ul></div>
+        <div class="desk-group" data-group="changed"><h4>Changed files <em></em></h4><ul></ul></div>
+      </div>
+    </section>
+
+    <!-- 6 ─────────────────────────────────────────────────────────── -->
+    <section id="keys" class="chapter" data-chapter="Keyboard">
+      <header class="chapter-head reveal">
+        <p class="kicker">Hands on the keys</p>
+        <h2 class="title">Everything has a key.</h2>
+        <p class="sub" data-keys-sub>Press them here. <kbd>⌘</kbd><kbd>⇧</kbd><kbd>M</kbd> really switches this page.</p>
+      </header>
+      <div class="keys reveal" data-keys>
+        <div class="key" data-key="k"><span class="caps"><kbd>⌘</kbd><kbd>K</kbd></span><b>Command palette</b><small>Most-used actions first</small></div>
+        <div class="key" data-key="f"><span class="caps"><kbd>⌘</kbd><kbd>F</kbd></span><b>Find in this chat</b><small>Highlights in place, “1 of 12”</small></div>
+        <div class="key" data-key="/"><span class="caps"><kbd>⌘</kbd><kbd>/</kbd></span><b>All shortcuts</b><small>One sheet</small></div>
+        <div class="key" data-key="H"><span class="caps"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>H</kbd></span><b>The Desk</b><small>What needs you</small></div>
+        <div class="key" data-key="M"><span class="caps"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>M</kbd></span><b>Simple / Developer</b><small>Try it now</small></div>
+        <div class="key" data-key="."><span class="caps"><kbd>⌘</kbd><kbd>.</kbd> <span class="or">or</span> <kbd>Esc</kbd></span><b>Stop the reply</b><small>From anywhere on the page</small></div>
+      </div>
+    </section>
+
+    <!-- 7 ─────────────────────────────────────────────────────────── -->
+    <section id="local" class="chapter" data-chapter="Local">
+      <header class="chapter-head reveal">
+        <p class="kicker">On your machine</p>
+        <h2 class="title">Your models. Your files. Your rules.</h2>
+      </header>
+      <div class="trio reveal">
+        <div class="card">
+          <h3>Your models</h3>
+          <p>llama.cpp, Ollama and LM Studio on your Mac. Hearth keeps the prompt stable so the cache does the work.</p>
+          <p class="fine m-dev">Stable prompt prefix · cache-break detection · request records per step</p>
+        </div>
+        <div class="card">
+          <h3>Your files</h3>
+          <p>Every edit is snapshotted. Revert a whole reply, one file, or one hunk — and edits you made yourself are never overwritten.</p>
+          <p class="fine m-dev">Hunk fingerprints · rewind restores files · worktree chats</p>
+        </div>
+        <div class="card">
+          <h3>Your rules</h3>
+          <p>Ask before every command, or give full access. Plan mode only reads. Tool servers ask by name.</p>
+          <p class="fine m-dev">Permission prompts · MCP over stdio · deny-by-default preview sandbox</p>
+        </div>
+      </div>
+      <p class="create reveal">And a <b>Create</b> menu for video, music and images — on the same machine.</p>
+    </section>
+
+    <!-- 8 ─────────────────────────────────────────────────────────── -->
+    <section id="numbers" class="chapter" data-chapter="Numbers">
+      <header class="chapter-head reveal">
+        <p class="kicker">Measured, not claimed</p>
+        <h2 class="title">One night, scored before and after.</h2>
+        <p class="sub">A fixed scorecard: 40 features, 11 failure scenarios, accessibility and keyboard checks, speed, and blind design judges who didn't know which build was which.</p>
+      </header>
+      <div class="scores reveal" data-scores></div>
+      <div class="total reveal">
+        <div><span class="from">7.86</span><span class="arrow">→</span><span class="to" data-count-to="9.54" data-count-from="7.86">9.54</span></div>
+        <p>overall, out of 10</p>
+      </div>
+      <ul class="facts reveal">
+        <li><b>40 / 40</b> features working <small>was 22</small></li>
+        <li><b>0</b> accessibility problems <small>was 13</small></li>
+        <li><b>1,480 + 300</b> tests passing <small>0 failing</small></li>
+        <li><b>Same speed</b> <small>startup ~0.17 s</small></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="foot-hearth" aria-hidden="true"><canvas class="flame" data-flame-foot width="200" height="200"></canvas><svg viewBox="0 0 24 24"><path class="arch" d="M3 21V11a9 9 0 0 1 18 0v10h-4V11a5 5 0 0 0-10 0v10Z"/></svg></div>
+    <p class="foot-big">Keep the fire going.</p>
+    <p class="foot-line">Hearth — a personal build for macOS on Apple Silicon.</p>
+    <p class="foot-fine">The overnight release was built by Claude (Opus 5.5) and GPT‑6.1 Sol, tested with a synthetic model and synthetic chats only.</p>
+  </footer>
+
+  <script src="motion.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
