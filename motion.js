@@ -444,7 +444,8 @@ void main(){
   const M = { section: $('#faces'), card: $('[data-morph]'), rows: $$('.mo-row'), rowsBox: $('[data-mo-rows]'), act: $('[data-mo-activity]'), metas: $$('.mo-meta'),
     ldev: $('[data-mo-ldev]'), lsimple: $('[data-mo-lsimple]'), metrics: $('[data-mo-metrics]'), done: $('[data-mo-done]'), knob: $('[data-mo-knob]'), lDev: $('[data-mo-dev]'), lSimple: $('[data-mo-simple]') };
   const actText = M.act.textContent.trim().replace(/\s*›$/, '');
-  M.act.innerHTML = [...actText].map((ch) => `<span class="c">${ch === ' ' ? '&nbsp;' : ch}</span>`).join('') + ' <span class="c">›</span>';
+  // Spaces stay ordinary so the sentence can wrap on a narrow screen.
+  M.act.innerHTML = [...actText].map((ch) => (ch === ' ' ? ' ' : `<span class="c">${ch}</span>`)).join('') + ' <span class="c">›</span>';
   const actChars = $$('.c', M.act);
   const simpleItems = [...M.lsimple.children];
   function renderMorph(p) {
